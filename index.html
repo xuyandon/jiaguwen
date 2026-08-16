@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>甲骨文 · 虫书鸟篆 —— 字，是祖先理解世界的模型</title>
+<style>
+  :root{
+    --ink:#0d0a06;
+    --ink-2:#16110a;
+    --card:#1d1710;
+    --card-2:#231c12;
+    --gold:#c9a227;
+    --gold-2:#e6c86a;
+    --gold-dim:#8a7432;
+    --cinnabar:#a63a2b;
+    --cinnabar-2:#c94f3d;
+    --text:#e9dcc0;
+    --text-dim:#b7a583;
+    --text-faint:#8a7a5c;
+    --line:rgba(201,162,39,.28);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:"Noto Serif SC","Source Han Serif SC","Songti SC","STSong","SimSun",serif;
+    color:var(--text);
+    background:var(--ink);
+    background-image:url('虫书鸟篆参考.png');
+    background-attachment:fixed;
+    background-size:cover;
+    background-position:center 20%;
+    min-height:100vh;
+    line-height:1.7;
+    overflow-x:hidden;
+  }
+  /* 暗色罩层：让虫书鸟篆图隐约透出，文字仍清晰 */
+  body::before{
+    content:"";
+    position:fixed;inset:0;z-index:-1;
+    background:
+      radial-gradient(ellipse at 50% -10%, rgba(201,162,39,.10), transparent 60%),
+      linear-gradient(180deg, rgba(13,10,6,.82) 0%, rgba(13,10,6,.88) 30%, rgba(13,10,6,.92) 70%, rgba(13,10,6,.96) 100%);
+  }
+  .wrap{max-width:1200px;margin:0 auto;padding:0 28px;}
+
+  /* ===== 头部 ===== */
+  header.hero{
+    padding:72px 0 40px;
+    text-align:center;
+    position:relative;
+  }
+  .seal{
+    display:inline-block;
+    width:76px;height:76px;
+    background:var(--cinnabar);
+    color:#f5ead6;
+    font-family:"Kaiti SC","STKaiti","KaiTi","SimSun",serif;
+    font-size:20px;line-height:1.35;
+    letter-spacing:2px;
+    padding-top:10px;
+    border:3px double rgba(245,234,214,.65);
+    border-radius:8px;
+    transform:rotate(-6deg);
+    box-shadow:0 4px 18px rgba(0,0,0,.6), inset 0 0 12px rgba(0,0,0,.25);
+    margin-bottom:26px;
+  }
+  h1{
+    font-family:"Kaiti SC","STKaiti","KaiTi","SimSun",serif;
+    font-size:clamp(40px,6vw,64px);
+    font-weight:700;
+    letter-spacing:.12em;
+    background:linear-gradient(180deg,#f3e3b2 0%,var(--gold-2) 38%,var(--gold) 62%,#9a7b2a 100%);
+    -webkit-background-clip:text;background-clip:text;
+    -webkit-text-fill-color:transparent;color:transparent;
+    filter:drop-shadow(0 2px 10px rgba(201,162,39,.25));
+    padding-left:.12em; /* 抵消 letter-spacing 的右偏 */
+  }
+  .subtitle{
+    margin-top:10px;
+    font-size:clamp(14px,2vw,18px);
+    color:var(--gold-2);
+    letter-spacing:.5em;
+    text-indent:.5em;
+    opacity:.9;
+  }
+  .intro{
+    max-width:760px;margin:26px auto 0;
+    font-size:15px;color:var(--text-dim);
+    background:rgba(13,10,6,.55);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:18px 24px;
+    backdrop-filter:blur(2px);
+  }
+  .intro strong{color:var(--gold-2);font-weight:600;}
+  .intro .red{color:var(--cinnabar-2);font-weight:600;}
+  .halfnote{
+    max-width:760px;margin:14px auto 0;
+    font-size:13.5px;color:var(--text-faint);
+    border-left:3px solid var(--cinnabar);
+    background:rgba(166,58,43,.08);
+    border-radius:0 8px 8px 0;
+    padding:10px 16px;
+    text-align:left;
+  }
+  .divider{
+    display:flex;align-items:center;gap:14px;
+    max-width:560px;margin:8px auto 0;
+    color:var(--gold-dim);
+  }
+  .divider::before,.divider::after{
+    content:"";flex:1;height:1px;
+    background:linear-gradient(90deg,transparent,var(--gold-dim),transparent);
+  }
+  .divider .orn{font-size:13px;letter-spacing:.4em;}
+
+  /* ===== 区块 ===== */
+  section{margin:64px 0;}
+  .sec-head{display:flex;align-items:baseline;gap:16px;margin-bottom:8px;}
+  .sec-num{
+    font-family:"Kaiti SC","STKaiti","KaiTi",serif;
+    font-size:20px;color:var(--cinnabar-2);
+    border:1px solid rgba(201,79,61,.5);
+    border-radius:6px;padding:2px 10px;
+    transform:rotate(-2deg);
+  }
+  h2{
+    font-size:clamp(22px,3vw,30px);
+    font-weight:700;letter-spacing:.1em;
+    color:var(--gold-2);
+  }
+  .sec-sub{margin:4px 0 26px;color:var(--text-faint);font-size:13.5px;}
+
+  /* ===== 字卡 ===== */
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(340px,1fr));
+    gap:22px;
+  }
+  .card{
+    position:relative;
+    background:linear-gradient(165deg,var(--card-2) 0%,var(--card) 55%,#16110a 100%);
+    border:1px solid var(--line);
+    border-radius:12px;
+    padding:22px 22px 18px;
+    box-shadow:0 6px 22px rgba(0,0,0,.45);
+    transition:transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+    overflow:hidden;
+  }
+  .card::before{
+    content:"";position:absolute;inset:0;pointer-events:none;
+    background:radial-gradient(circle at 15% -10%, rgba(201,162,39,.10), transparent 45%);
+  }
+  .card:hover{
+    transform:translateY(-4px);
+    border-color:rgba(230,200,106,.55);
+    box-shadow:0 14px 34px rgba(0,0,0,.6), 0 0 24px rgba(201,162,39,.08);
+  }
+  .card.lost{border-color:rgba(201,79,61,.4);}
+  .card.lost:hover{border-color:rgba(201,79,61,.7);box-shadow:0 14px 34px rgba(0,0,0,.6),0 0 24px rgba(166,58,43,.12);}
+  .card-head{display:flex;align-items:flex-start;gap:16px;margin-bottom:12px;}
+  .bigchar{
+    flex-shrink:0;
+    width:74px;height:74px;
+    display:flex;align-items:center;justify-content:center;
+    font-family:"Kaiti SC","STKaiti","KaiTi","SimSun",serif;
+    font-size:52px;font-weight:700;
+    color:var(--gold-2);
+    background:radial-gradient(circle at 30% 25%, #2c2416, #191309 70%);
+    border:1px solid var(--line);
+    border-radius:10px;
+    text-shadow:0 0 18px rgba(230,200,106,.35);
+  }
+  .card.lost .bigchar{color:#e08a7a;text-shadow:0 0 18px rgba(201,79,61,.4);background:radial-gradient(circle at 30% 25%, #2e1a13, #1a0f0a 70%);}
+  .card-info{flex:1;min-width:0;}
+  .py{color:var(--text-dim);font-size:13px;letter-spacing:.15em;}
+  .badge{
+    display:inline-block;margin-left:8px;
+    font-size:11px;letter-spacing:.1em;
+    color:var(--gold-2);
+    border:1px solid rgba(201,162,39,.5);
+    border-radius:3px;padding:0 6px;vertical-align:1px;
+  }
+  .card.lost .badge{color:#e08a7a;border-color:rgba(201,79,61,.6);}
+  .arc-badge{
+    display:inline-block;margin-left:8px;
+    font-size:11px;letter-spacing:.1em;
+    color:#f0d9a0;background:rgba(166,58,43,.75);
+    border:1px solid rgba(240,217,160,.5);
+    border-radius:3px;padding:0 7px;vertical-align:1px;
+  }
+  .rows{display:flex;flex-direction:column;gap:7px;font-size:14px;}
+  .row{display:flex;gap:8px;align-items:baseline;}
+  .row .lab{
+    flex-shrink:0;width:38px;
+    font-size:12px;color:var(--text-faint);
+    border:1px solid rgba(183,165,131,.25);
+    border-radius:3px;text-align:center;padding:0 2px;
+  }
+  .row .lab.ben{color:var(--gold-2);border-color:rgba(201,162,39,.45);}
+  .row .lab.po{color:var(--text-faint);border-color:rgba(183,165,131,.25);text-decoration:line-through;}
+  .row .lab.jin{color:var(--text-dim);}
+  .row .lab.arc{color:#f0d9a0;border-color:rgba(240,217,160,.5);background:rgba(166,58,43,.6);}
+  .row .val.ben{color:var(--gold-2);}
+  .row .val.po{color:var(--text-faint);text-decoration:line-through;text-decoration-color:rgba(201,79,61,.7);}
+  .row .val.jin{color:var(--text-dim);}
+  .row .val.arc{color:#f0d9a0;}
+  .chain{
+    margin-top:10px;padding:8px 10px;
+    font-size:13px;color:var(--text-dim);
+    background:rgba(13,10,6,.5);
+    border:1px dashed rgba(201,162,39,.22);
+    border-radius:6px;
+  }
+  .chain b{color:var(--gold);font-weight:600;}
+  .note{
+    margin-top:8px;font-size:12.5px;color:var(--text-faint);
+    font-style:italic;
+  }
+  .foot-line{
+    margin-top:12px;display:flex;align-items:center;justify-content:space-between;gap:12px;
+  }
+  .twist{
+    font-size:12px;color:var(--text-faint);letter-spacing:.05em;
+  }
+  .twist b{color:var(--gold-2);font-size:14px;}
+  .card.lost .twist b{color:#e08a7a;}
+  .gauge{display:flex;gap:5px;}
+  .gauge i{
+    width:16px;height:6px;border-radius:2px;
+    background:rgba(138,116,50,.25);
+    border:1px solid rgba(201,162,39,.3);
+  }
+  .gauge i.on{background:linear-gradient(90deg,var(--gold-2),var(--gold));border-color:var(--gold-2);box-shadow:0 0 6px rgba(230,200,106,.5);}
+  .card.lost .gauge i.on{background:linear-gradient(90deg,#e08a7a,#c94f3d);border-color:#e08a7a;box-shadow:0 0 6px rgba(201,79,61,.5);}
+
+  /* 被修改字卡 */
+  .card.arc::after{
+    content:"改";
+    position:absolute;top:12px;right:12px;
+    font-family:"Kaiti SC","STKaiti","KaiTi",serif;
+    font-size:16px;color:rgba(240,217,160,.85);
+    border:2px solid rgba(240,217,160,.7);
+    border-radius:4px;padding:0 7px;
+    transform:rotate(8deg);
+    background:rgba(166,58,43,.55);
+    pointer-events:none;
+  }
+
+  /* ===== 方法页 ===== */
+  .method{
+    background:linear-gradient(170deg,var(--card-2),var(--card) 60%,#16110a);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:34px 36px;
+    box-shadow:0 8px 30px rgba(0,0,0,.5);
+  }
+  .method h3{
+    color:var(--gold-2);font-size:20px;letter-spacing:.15em;
+    margin-bottom:6px;font-family:"Kaiti SC","STKaiti","KaiTi",serif;
+  }
+  .method .m-sub{color:var(--text-faint);font-size:13px;margin-bottom:20px;}
+  .steps{
+    display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;
+    margin-bottom:26px;
+  }
+  .step{
+    background:rgba(13,10,6,.5);
+    border:1px solid rgba(201,162,39,.18);
+    border-radius:8px;padding:10px 12px;
+    font-size:12.5px;color:var(--text-dim);
+  }
+  .step b{
+    display:block;color:var(--gold-2);font-size:13px;margin-bottom:3px;letter-spacing:.08em;
+  }
+  .principles{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;
+  }
+  .principle{
+    border-left:3px solid var(--gold-dim);
+    padding:10px 16px;
+    background:rgba(13,10,6,.35);
+    border-radius:0 8px 8px 0;
+  }
+  .principle b{color:var(--gold-2);display:block;margin-bottom:4px;font-size:14.5px;}
+  .principle p{font-size:13px;color:var(--text-dim);}
+
+  /* ===== 页脚 ===== */
+  footer{
+    margin-top:70px;padding:34px 0 48px;
+    border-top:1px solid var(--line);
+    text-align:center;color:var(--text-faint);font-size:13px;
+  }
+  footer .f-seal{
+    display:inline-block;
+    width:46px;height:46px;line-height:1.25;
+    background:var(--cinnabar);color:#f5ead6;
+    font-family:"Kaiti SC","STKaiti","KaiTi",serif;
+    font-size:13px;padding-top:6px;letter-spacing:1px;
+    border:2px double rgba(245,234,214,.6);border-radius:6px;
+    transform:rotate(-6deg);
+    margin-bottom:14px;
+  }
+  footer p{margin-top:6px;}
+
+  /* 滚动条 */
+  ::-webkit-scrollbar{width:10px;}
+  ::-webkit-scrollbar-track{background:#100c07;}
+  ::-webkit-scrollbar-thumb{background:#3a2f1a;border-radius:5px;}
+  ::-webkit-scrollbar-thumb:hover{background:#57431f;}
+
+  /* 淡入动画 */
+  .card,.method{opacity:0;transform:translateY(14px);transition:opacity .6s ease,transform .6s ease;}
+  .in{opacity:1;transform:none;}
+
+  @media (max-width:640px){
+    .grid{grid-template-columns:1fr;}
+    .method{padding:24px 18px;}
+    .wrap{padding:0 16px;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- ================= 头部 ================= -->
+  <header class="hero">
+    <div class="seal">蟲書<br>鳥篆</div>
+    <h1>甲骨文 · 虫书鸟篆</h1>
+    <p class="subtitle">字，是祖先理解世界的模型</p>
+    <div class="divider"><span class="orn">◆ ◆ ◆</span></div>
+    <p class="intro">
+      每个汉字都是一幅画、一个过程、一个「象」。祖先先有对自然的理解——
+      水循环、日升日落、植物生长、阴阳转化——再用字形把它画下来、固定下来。
+      今天的我们天天在用这些字，却早已不认得它们原本在描写什么。
+      本页把 <strong>「常用却不识本义」</strong> 的字逐一挑出：
+      先<strong>破掉今天的俗解</strong>，再回到字形源头，看它原本是什么。
+    </p>
+    <p class="halfnote">
+      ⚠ <strong>半成品声明</strong>：本页是「甲骨文解字」方法的一份半成品展示——
+      因 AI 成本上涨、且大模型在功能上无法真正理解文字（只能模仿意象、不能亲历自然过程），
+      本项目已转向交由人类研究；AI 仅作字形检索、材料整理与逻辑校验的辅助。
+      以下字义为<strong>民间意象字源学</strong>视角，非主流训诂定论，凡未坐实处标注「待核验」。
+    </p>
+  </header>
+
+  <!-- ================= 壹 · 常用不识本义 ================= -->
+  <section>
+    <div class="sec-head">
+      <span class="sec-num">壹</span>
+      <h2>中国人常用 · 却不识本义</h2>
+    </div>
+    <p class="sec-sub">这些字天天出现在嘴边笔下，但今天的意思早已不是它们原本的模样。每张卡：划掉的「破象」= 今天的俗解，金色「本义」= 字形原本描写的自然意象。</p>
+    <div class="grid" id="grid-common"></div>
+  </section>
+
+  <!-- ================= 贰 · 本义彻底丧失 ================= -->
+  <section>
+    <div class="sec-head">
+      <span class="sec-num">贰</span>
+      <h2>本义彻底丧失 · 扭曲最重</h2>
+    </div>
+    <p class="sec-sub">这些字的先天本义已被彻底遮蔽——有的褒贬完全翻转，有的直接沦为虚词，有的连字都被改写了。扭曲度 5 = 原义完全不可见。</p>
+    <div class="grid" id="grid-lost"></div>
+  </section>
+
+  <!-- ================= 叁 · 被修改字 ================= -->
+  <section>
+    <div class="sec-head">
+      <span class="sec-num">叁</span>
+      <h2>被修改的字 · 文字考古</h2>
+    </div>
+    <p class="sec-sub">以出土先秦文本对照今本，「今本某字在先秦作另一字、且本义完全不同」——这是文字被后世修改（音借 / 隶定 / 避讳 / 简化）的实证。解此类字必须标注原形。</p>
+    <div class="grid" id="grid-arc"></div>
+  </section>
+
+  <!-- ================= 肆 · 方法一页 ================= -->
+  <section>
+    <div class="method" id="method">
+      <h3>肆 · 意象拆字法 · 思考路线一页</h3>
+      <p class="m-sub">解任何字，按此顺序走完十步；前一步没做完，不许进入下一步。</p>
+      <div class="steps">
+        <div class="step"><b>0 隔离</b>从现代复音词中剥离单字（"死亡"→ 只考"死"）</div>
+        <div class="step"><b>1 观形</b>看甲骨/金文/篆书，只描述字形画面，禁止现代词汇</div>
+        <div class="step"><b>2 定域</b>先天（能量/过程）还是后天（物质/名词）？</div>
+        <div class="step"><b>3 对自然大模型</b>画面在自然中对应什么过程？水循环/植物生长/日升日落…</div>
+        <div class="step"><b>4 悟阴阳</b>同一事物的能量转化——阳化气、阴成形，禁生克</div>
+        <div class="step"><b>5 入五行</b>仅直接相关字：能量状态谱系，不作相生相克推演</div>
+        <div class="step"><b>6 定本义</b>一句话说清先天本义——必须是动态过程，不是名词</div>
+        <div class="step"><b>7 辨兄弟</b>近义字独立考据，先分清再合流，防互相污染</div>
+        <div class="step"><b>8 溯引申</b>从本义一步步推，每步标转化机制，直到能解释现代义</div>
+        <div class="step"><b>9 查污染</b>复音词/简体/后世注/标签化——逐类排查遮蔽</div>
+        <div class="step"><b>10 输出</b>破象 → 字形 → 大模型 → 本义 → 兄弟 → 引申链 → 污染 → 句中义</div>
+      </div>
+      <div class="principles">
+        <div class="principle"><b>总纲 A · 阴阳 = 能量转化</b><p>阴阳是同一个事物内部的能量转化（阴转阳、阳转阴、一入一出），不是两物对立；解字禁用五行生克推演。</p></div>
+        <div class="principle"><b>总纲 B · 自然大模型为本</b><p>水循环、山谷容水、太阳发光、黄河造田、植物生长链、日升日落——意象必须能在自然中「看见」；人体气机只是小模型映射，不泛化。</p></div>
+        <div class="principle"><b>总纲 C · 文字 = 祖先理解世界的模型</b><p>先有模型（水循环/生长），后用字形画下来；解字方向是「模型 → 字」，不是「字 → 现代近义词」。</p></div>
+        <div class="principle"><b>验证 · 三条铁律</b><p>① 通达验证：按本义读原句，不通则回查；② 典籍互证：以先秦/出土文本为一手证据；③ 说文只作线索，回到字形验证，不盲从（许慎未见甲骨文）。</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 页脚 ================= -->
+  <footer>
+    <div class="f-seal">蟲書<br>鳥篆</div>
+    <p>甲骨文 · 虫书鸟篆 —— 半成品展示，已转交人类研究</p>
+    <p>每一字：先破象，后立义；以自然为终极验证。</p>
+    <p>民间意象字源学视角 · 非主流训诂定论 · 待核验处已如实标注</p>
+  </footer>
+
+</div>
+
+<script>
+  /* ---------- 数据 ---------- */
+  const COMMON = [
+    {c:"帝", py:"dì", po:"皇帝、帝王", ben:"花蒂——花的精华，承天旋转运化之力（承天道而立极的中枢）", jin:"皇帝；上帝", chain:"花蒂 →(神化)天帝 →(政治化)皇帝", twist:4, note:"「黄帝」=把天地造息壤之道搬进人身、居中立极之人。"},
+    {c:"天", py:"tiān", po:"天空", ben:"顺序因果的标记＋天道——布施阳光雨露而不争", jin:"天空；天然", chain:"天道 →(空间化)天空 →(现代义)天然", twist:3, note:"「学天时习之」：学是因，习是果。"},
+    {c:"日", py:"rì", po:"太阳", ben:"太阳在地平线循环一周（日升日落又复升）", jin:"太阳；日子", chain:"循环一周 →(时间化)一天 →(天体化)太阳", twist:3, note:"简体「日」看不出循环结构。"},
+    {c:"水", py:"shuǐ", po:"H₂O", ben:"先天之水——循环流动之力（蒸腾成气→降雨→归流）", jin:"水；液体", chain:"先天之水 →(物质化)H₂O →(引申)水平/水准", twist:3, note:"「上善如水」=润物不争的循环之力。"},
+    {c:"道", py:"dào", po:"道路、道理", ben:"时空通道——运行的轨迹", jin:"道路；道理；道德", chain:"运行轨迹 →(名词化)道路 →(抽象化)道理", twist:3, note:"「道可道，非常道」=运行轨迹不可言说为固定轨迹。"},
+    {c:"德", py:"dé", po:"道德、品行", ben:"行有所得、循道而行（目光直视而行于道）", jin:"道德；品行；恩德", chain:"行道有得 →(名词化)得 →(伦理化)道德", twist:2, note:"「上德不德」=最高的得不显为得。"},
+    {c:"神", py:"shén", po:"神仙、精神", ben:"申（闪电）之贯通——阴阳之气的显化", jin:"神仙；精神", chain:"贯通显示 →(具体化)天神 →(抽象化)精神", twist:3, note:"「神得一以灵」=贯通之力得一而灵。"},
+    {c:"悟", py:"wù", po:"领悟、觉悟", ben:"觉察自身营卫之气（我=物+己=卫气+营气）", jin:"领悟；觉悟", chain:"觉察气机 →(抽象化)领悟 →(名词化)觉悟", twist:3, note:"悟=内观觉察，非抽象想通。"},
+    {c:"生", py:"shēng", po:"出生、活着", ben:"进也——生命的编织成形（破土而出向上推进）", jin:"出生；生命", chain:"编织成形 →(动作化)出生 →(名词化)生命", twist:2, note:"「生生不息」=绵绵不绝的生成。"},
+    {c:"河", py:"hé", po:"河流", ben:"黄河——可以蔓延、改道、夹沙造田的那条水", jin:"河流；黄河", chain:"蔓延造田之水 →(具体化)黄河 →(泛化)一切河流", twist:2, note:"「河出图，洛出书」之河=黄河专名。"},
+    {c:"黄", py:"huáng", po:"颜色「黄色」", ben:"天光＋地黄之力旋转运化、搬运沙土沉积造田的过程", jin:"黄色；黄河", chain:"造田过程 →(具体化)黄土 →(颜色化)黄色", twist:4, note:"「天地玄黄」=天地造息壤系统的颜色表达。"},
+    {c:"田", py:"tián", po:"农田", ben:"被规划编织、均匀分配的土地", jin:"田地；田野", chain:"规划之土 →(名词化)农田 →(泛化)田野", twist:1, note:"田=造息壤系统的结果。"},
+    {c:"光", py:"guāng", po:"光线、光明", ben:"太阳能量播撒大地、驱动万物循环之力", jin:"光线；光明", chain:"太阳播撒之力 →(物质化)光线 →(抽象化)光明", twist:2, note:"光与黄、田同属造息壤系统。"},
+    {c:"正", py:"zhèng", po:"正确、正直", ben:"到结点做该做的事（合天时地利）", jin:"正确；正直", chain:"结地结点 →(抽象化)规矩 →(伦理化)正确", twist:3, note:"「以正治国」=按天时地利行事。"},
+    {c:"明", py:"míng", po:"明亮、明白", ben:"日月相合而光明（阴阳交合照临）", jin:"明亮；明白", chain:"日月相合 →(状态化)明亮 →(认知化)明白", twist:3, note:"「日月不失其体，故必而复明」。"},
+    {c:"治", py:"zhì", po:"治理、治疗", ben:"像水一样自我演化（顺性而治）", jin:"治理；治疗", chain:"顺水演化 →(动作化)治水 →(泛化)治理", twist:3, note:"「大禹治水」=顺水之性改道，非堵。"},
+    {c:"复", py:"fù", po:"重复、恢复", ben:"不可见的往来运行（时空通道中的往复）", jin:"重复；恢复", chain:"不可见往来 →(动作化)重复 →(虚词化)再", twist:3, note:"「鲧复生禹」=精神重生为禹，非腹生。"},
+    {c:"息", py:"xī", po:"休息、消息", ben:"气机绵长循环＋内在生机安静，同步运行", jin:"休息；消息", chain:"气机循环 →(动作化)休息 →(名词化)消息/利息", twist:3, note:"「息壤」=持续堆积形成耕地的过程，非神土。"},
+    {c:"华", py:"huá", po:"华丽、中华", ben:"植物开花（生命的生发状态）", jin:"中华；华丽", chain:"开花 →(状态化)光华 →(族名化)中华", twist:3, note:"「灼灼其华」=桃花盛开。"},
+    {c:"夏", py:"xià", po:"夏天、华夏", ben:"生命破土而出的瞬间（种子破壳、阴阳合合）", jin:"夏天；华夏", chain:"破土瞬间 →(族名化)中国之人 →(季节化)夏天", twist:4, note:"「华夏」=文明破土生长。"},
+    {c:"化", py:"huà", po:"变化", ben:"气力相摇、阴阳转化（一入一出、可大可小）", jin:"变化；教化", chain:"阴阳转化 →(结果化)变化 →(引申)教化", twist:2, note:"化=正反两个人形的倒影。"},
+    {c:"考", py:"kǎo", po:"考试", ben:"试炼、试探极限（放水逼根深扎发新根）", jin:"考试；考验", chain:"试炼 →(动作化)考验 →(制度化)考试", twist:1, note:"「高考」=对人才的试炼。"},
+    {c:"老", py:"lǎo", po:"年长", ben:"分蘖后脱水试炼、老根与新生根转换的状态", jin:"年老；老人", chain:"成熟试炼 →(状态化)年老 →(名词化)老人", twist:3, note:"「老子」=得道试炼之人（待核验）。"},
+    {c:"实", py:"shí", po:"实际、实在", ben:"果实灌浆后的充实（究竟圆满）", jin:"实际；实在", chain:"灌浆充实 →(状态化)充实 →(抽象化)实际", twist:3, note:"「实事求是」=求果实究竟圆满。"},
+    {c:"求", py:"qiú", po:"请求、寻求", ben:"循环汇聚、缠绕灌浆（往果实注入能量）", jin:"寻求；请求", chain:"汇聚缠绕 →(动作化)寻求 →(言语化)请求", twist:3, note:"「实事求是」之求=求果实究竟。"},
+    {c:"谷", py:"gǔ", po:"山谷、稻谷", ben:"两山间容纳水流的空间（水来则盈、去则虚）", jin:"山谷；稻谷", chain:"容纳空间 →(具体化)山谷 →(借音)稻谷", twist:4, note:"「谷神不死」=空虚的容纳是生机之源。"},
+  ];
+
+  const LOST = [
+    {c:"杀", py:"shā", po:"杀戮、杀死", ben:"蜕变、洗礼——暗藏生机（阳化气阴成形，生命编织）", jin:"杀死；杀戮", chain:"蜕变/生机 →(动作化)诛罚废放 →(具体化)杀戮", twist:5, note:"「天发杀机，移星易宿」——杀机即生机。"},
+    {c:"是", py:"shì", po:"系动词「是」", ben:"果实、究竟、真理（与「实」同源）", jin:"是（判断词）；正确", chain:"果实 →(判断化)正确/是非 →(虚词化)系动词", twist:5, note:"「实事求是」=求果实究竟圆满。"},
+    {c:"斯", py:"sī", po:"虚词「此、这」", ben:"养米去糠——簸箕筛选、去糟粕留精华的磨练过程", jin:"此；这", chain:"筛选磨练 →(虚词化)此/这", twist:5, note:"「天将降大任于斯人也」=被磨练之人。"},
+    {c:"无", py:"wú", po:"没有", ben:"天地相互作用孕育生命的创造/编织过程（万物之始）", jin:"没有", chain:"创造过程 →(名词化)空无 →(虚词化)没有", twist:4, note:"「无，万物之始也」「有生于无」。"},
+    {c:"中", py:"zhōng", po:"中间、中央、中国", ben:"最小的生命单元（中微子/种子态），叠加生成万物", jin:"中间；中央", chain:"最小单元 →(方位化)五居中央 →(泛化)中间", twist:4, note:"「中」=太极两仪四象的演化核心。"},
+    {c:"柔", py:"róu", po:"柔软、温顺", ben:"藤蔓缠绕生长的过程＋嫩芽尖端之利（纳米刀/水刀）", jin:"柔软；柔和", chain:"缠绕生长 →(状态化)柔和 →(褒贬化)温顺", twist:4, note:"「柔弱胜刚强」=水刀之利，非不抵抗。"},
+    {c:"止", py:"zhǐ", po:"停止", ben:"蓄力结点——枝条将出未出，中性过程", jin:"停止；拦阻", chain:"蓄力结点 →(动作化)停止 →(抽象化)截止", twist:4, note:"「知止而后有定」=知道自己的结点。"},
+    {c:"字", py:"zì", po:"文字", ben:"内部孕育、即将结果的蓄力状态（乳也）", jin:"文字", chain:"蓄力孕育 →(名词化)文字", twist:4, note:"「字字为正」=每字都处在将果结点。"},
+    {c:"而", py:"ér", po:"连词「而且」", ben:"倒果为因的标记——连接前后两项，后者为因", jin:"而且；然而", chain:"因果标记 →(虚词化)连词", twist:4, note:"「知之而后有定」=因有定，故知之。"},
+    {c:"弱", py:"ruò", po:"弱小、软弱", ben:"细丝弯曲汇聚——弱力汇聚成强力", jin:"弱小；软弱", chain:"细丝汇聚 →(状态化)弱小 →(褒贬化)软弱", twist:4, note:"弱是汇聚之力，被后人读成了软弱。"},
+    {c:"刚", py:"gāng", po:"刚强、刚才", ben:"刀坚能断（与柔相对）", jin:"刚强；刚才", chain:"刀坚 →(状态化)刚强 →(虚词化)刚才", twist:4, note:"「刚才」的刚，离刀有多远。"},
+    {c:"弗", py:"fú", po:"文言否定「不」", ben:"矫箭之形——束缚使直、矫正", jin:"不", chain:"矫直 →(虚词化)否定", twist:4, note:"「弗」本是矫正的功夫。"},
+    {c:"夫", py:"fū", po:"丈夫、发语词", ben:"束发加簪的成年男子", jin:"丈夫；发语词", chain:"成年男子 →(虚词化)发语词", twist:4, note:"「夫」本是成人礼的标记。"},
+    {c:"亡", py:"wáng", po:"死亡", ben:"人藏于隐蔽处——消失、逃亡，不是死", jin:"死亡；逃亡", chain:"人藏隐蔽 →(动作化)逃亡 →(复音词)死亡", twist:4, note:"「亡羊补牢」的亡是跑、不是死。"},
+  ];
+
+  const ARC = [
+    {c:"乾", py:"qián", arc:"键", arcMeaning:"键=金属门闩（坚实），阳之极的实物象", jinMeaning:"乾=日气上出（干燥）；今作「乾坤」", chain:"帛书《周易》作「键」→ 今本音借改作「乾」", twist:3, note:"帛书「鍵者得之陽也」；键→乾，本义完全不同，疑为汉代音借改写。"},
+    {c:"坤", py:"kūn", arc:"川", arcMeaning:"川=河流贯穿，阴之极的实物象", jinMeaning:"坤=地；今作「乾坤」", chain:"帛书《周易》作「川」→ 今本音借改作「坤」", twist:3, note:"帛书「川者得之陰也」；川→坤，本义完全不同。"},
+    {c:"震", py:"zhèn", arc:"辰", arcMeaning:"辰=星辰、时辰", jinMeaning:"震=雷动振物；今作「震动/地震」", chain:"帛书作「辰」→ 今本音借改作「震」", twist:3, note:"卦名「震」系帛书「辰」之改字（待核验）。"},
+    {c:"谷", py:"gǔ", arc:"浴", arcMeaning:"浴=水浴（洗身）；「浴神不死」=水的沐浴滋养之神不灭", jinMeaning:"谷=山谷；今作「谷神不死」", chain:"帛书「浴神不死」→ 今本改作「谷神不死」", twist:4, note:"浴→谷，本义不同，改字（待核验）。"},
+    {c:"无", py:"wú", arc:"亡", arcMeaning:"亡=人藏隐蔽处（消失、逃亡）", jinMeaning:"无=没有；今本以「无」替「亡」", chain:"帛书「道恆亡名」→ 今本「道常无名」", twist:3, note:"亡→无，义近借用改字；「亡羊补牢」仍留亡=逃亡义。"},
+    {c:"谓", py:"wèi", arc:"胃", arcMeaning:"胃=胃腑（受谷之府），帛书借「胃」为「谓」", jinMeaning:"谓=言说；今作「是谓」", chain:"帛书「是胃玄同」→ 今本「是谓玄同」", twist:2, note:"胃→谓，通假规范化，作弱提示。"},
+  ];
+
+  /* ---------- 渲染 ---------- */
+  function gauge(v){
+    let h="";
+    for(let i=0;i<5;i++){ h += `<i class="${i<v?'on':''}"></i>`; }
+    return `<div class="gauge">${h}</div>`;
+  }
+
+  function cardCommon(d){
+    return `
+    <article class="card">
+      <div class="card-head">
+        <div class="bigchar">${d.c}</div>
+        <div class="card-info">
+          <div class="py">${d.py}<span class="badge">常用</span></div>
+        </div>
+      </div>
+      <div class="rows">
+        <div class="row"><span class="lab po">破象</span><span class="val po">${d.po}</span></div>
+        <div class="row"><span class="lab ben">本义</span><span class="val ben">${d.ben}</span></div>
+        <div class="row"><span class="lab jin">今义</span><span class="val jin">${d.jin}</span></div>
+      </div>
+      <div class="chain"><b>引申链</b>　${d.chain}</div>
+      <div class="note">${d.note}</div>
+      <div class="foot-line">
+        <span class="twist">扭曲度 <b>${d.twist}</b>/5</span>
+        ${gauge(d.twist)}
+      </div>
+    </article>`;
+  }
+
+  function cardLost(d){
+    return `
+    <article class="card lost">
+      <div class="card-head">
+        <div class="bigchar">${d.c}</div>
+        <div class="card-info">
+          <div class="py">${d.py}<span class="badge">本义丧失</span></div>
+        </div>
+      </div>
+      <div class="rows">
+        <div class="row"><span class="lab po">破象</span><span class="val po">${d.po}</span></div>
+        <div class="row"><span class="lab ben">本义</span><span class="val ben">${d.ben}</span></div>
+        <div class="row"><span class="lab jin">今义</span><span class="val jin">${d.jin}</span></div>
+      </div>
+      <div class="chain"><b>引申链</b>　${d.chain}</div>
+      <div class="note">${d.note}</div>
+      <div class="foot-line">
+        <span class="twist">扭曲度 <b>${d.twist}</b>/5</span>
+        ${gauge(d.twist)}
+      </div>
+    </article>`;
+  }
+
+  function cardArc(d){
+    return `
+    <article class="card lost arc">
+      <div class="card-head">
+        <div class="bigchar">${d.c}</div>
+        <div class="card-info">
+          <div class="py">${d.py}<span class="arc-badge">文字考古</span></div>
+        </div>
+      </div>
+      <div class="rows">
+        <div class="row"><span class="lab arc">帛书</span><span class="val arc">「${d.arc}」${d.arcMeaning}</span></div>
+        <div class="row"><span class="lab jin">今本</span><span class="val jin">${d.jinMeaning}</span></div>
+      </div>
+      <div class="chain"><b>改字链</b>　${d.chain}</div>
+      <div class="note">${d.note}</div>
+      <div class="foot-line">
+        <span class="twist">扭曲度 <b>${d.twist}</b>/5</span>
+        ${gauge(d.twist)}
+      </div>
+    </article>`;
+  }
+
+  document.getElementById("grid-common").innerHTML = COMMON.map(cardCommon).join("");
+  document.getElementById("grid-lost").innerHTML = LOST.map(cardLost).join("");
+  document.getElementById("grid-arc").innerHTML = ARC.map(cardArc).join("");
+
+  /* ---------- 淡入 ---------- */
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){ e.target.classList.add("in"); io.unobserve(e.target); }
+    });
+  },{threshold:.08});
+  document.querySelectorAll(".card, .method").forEach(el=>io.observe(el));
+</script>
+</body>
+</html>
