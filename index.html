@@ -25,22 +25,28 @@
   body{
     font-family:"Noto Serif SC","Source Han Serif SC","Songti SC","STSong","SimSun",serif;
     color:var(--text);
-    background:var(--ink);
-    background-image:url('虫书鸟篆参考.png');
-    background-attachment:fixed;
-    background-size:cover;
-    background-position:center 20%;
+    background-color:#14100a;
     min-height:100vh;
     line-height:1.7;
     overflow-x:hidden;
   }
-  /* 暗色罩层：让虫书鸟篆图隐约透出，文字仍清晰 */
+  /* 整幅虫书鸟篆图作为固定背景：multiply 混合把白底印成深褐，篆文笔画保留，完整显示不裁切 */
+  .bg-art{
+    position:fixed;inset:0;z-index:-1;
+    pointer-events:none;
+    background-color:#221a0f;
+    background-image:url('虫书鸟篆参考.png');
+    background-size:contain;
+    background-position:center;
+    background-repeat:no-repeat;
+    background-blend-mode:multiply;
+  }
+  /* 顶部金色氛围光（极淡，不遮图） */
   body::before{
     content:"";
     position:fixed;inset:0;z-index:-1;
     background:
-      radial-gradient(ellipse at 50% -10%, rgba(201,162,39,.10), transparent 60%),
-      linear-gradient(180deg, rgba(13,10,6,.82) 0%, rgba(13,10,6,.88) 30%, rgba(13,10,6,.92) 70%, rgba(13,10,6,.96) 100%);
+      radial-gradient(ellipse at 50% -10%, rgba(201,162,39,.07), transparent 55%);
   }
   .wrap{max-width:1200px;margin:0 auto;padding:0 28px;}
 
@@ -73,7 +79,7 @@
     background:linear-gradient(180deg,#f3e3b2 0%,var(--gold-2) 38%,var(--gold) 62%,#9a7b2a 100%);
     -webkit-background-clip:text;background-clip:text;
     -webkit-text-fill-color:transparent;color:transparent;
-    filter:drop-shadow(0 2px 10px rgba(201,162,39,.25));
+    filter:drop-shadow(0 2px 8px rgba(0,0,0,.85)) drop-shadow(0 0 2px rgba(0,0,0,.6));
     padding-left:.12em; /* 抵消 letter-spacing 的右偏 */
   }
   .subtitle{
@@ -82,12 +88,13 @@
     color:var(--gold-2);
     letter-spacing:.5em;
     text-indent:.5em;
-    opacity:.9;
+    opacity:.95;
+    text-shadow:0 1px 6px rgba(0,0,0,.9), 0 0 2px rgba(0,0,0,.8);
   }
   .intro{
     max-width:760px;margin:26px auto 0;
     font-size:15px;color:var(--text-dim);
-    background:rgba(13,10,6,.55);
+    background:rgba(13,10,6,.6);
     border:1px solid var(--line);
     border-radius:10px;
     padding:18px 24px;
@@ -99,10 +106,11 @@
     max-width:760px;margin:14px auto 0;
     font-size:13.5px;color:var(--text-faint);
     border-left:3px solid var(--cinnabar);
-    background:rgba(166,58,43,.08);
+    background:rgba(18,13,8,.72);
     border-radius:0 8px 8px 0;
     padding:10px 16px;
     text-align:left;
+    backdrop-filter:blur(2px);
   }
   .divider{
     display:flex;align-items:center;gap:14px;
@@ -113,7 +121,7 @@
     content:"";flex:1;height:1px;
     background:linear-gradient(90deg,transparent,var(--gold-dim),transparent);
   }
-  .divider .orn{font-size:13px;letter-spacing:.4em;}
+  .divider .orn{font-size:13px;letter-spacing:.4em;text-shadow:0 1px 4px rgba(0,0,0,.9);}
 
   /* ===== 区块 ===== */
   section{margin:64px 0;}
@@ -322,6 +330,7 @@
 </style>
 </head>
 <body>
+<div class="bg-art" aria-hidden="true"></div>
 <div class="wrap">
 
   <!-- ================= 头部 ================= -->
